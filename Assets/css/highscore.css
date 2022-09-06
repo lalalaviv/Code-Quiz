@@ -1,0 +1,55 @@
+*{
+    margin:0px;
+    padding:0px;
+    box-sizing:border-box; 
+}
+
+#wrapper{
+    width: 100%;
+    max-width: 80rem;
+    text-align: center;
+    position: center;
+    margin: 0 auto;}
+
+h1{
+margin-top: 100px;
+}
+
+main{
+    margin-top: 300px;
+}
+
+#scorerecord{
+    padding: 10px; 
+    background-color: lavender;
+}
+
+button{
+    background-color: mediumpurple;
+    color: white;
+    border: 1px solid grey;
+    border-radius: 6px;
+    width: 90px;
+    height: 20px;
+}
+
+
+button:hover{
+opacity: 1;
+cursor:grab;
+background-color: mediumslateblue;
+border: 1px solid darkgray;
+}
+
+button:focus{
+    opacity: 1; 
+    background-color: mediumslateblue;
+    padding: 7px solid lightblue;
+}
+
+
+
+
+#clear {
+    width: 120px;
+}
