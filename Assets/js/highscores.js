@@ -15,11 +15,12 @@ if (allScores !== null) {
     }
 }
 
-
+// Goes back to main page with click on go back button
 back.addEventListener("click", function() {
 window.location = ("./index.html"); 
 }); 
 
+// Clears high score record with click 
 clear.addEventListener("click", function() {
     localStorage.clear();
     location.reload();
