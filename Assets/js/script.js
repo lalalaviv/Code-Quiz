@@ -1,3 +1,5 @@
+
+// defining variables; 
 var timerElement = document.querySelector("#timer");
 var quiz = document.querySelector(".quiz");
 var questionsDiv = document.querySelector(".questions");
@@ -6,11 +8,10 @@ var choices = document.querySelector(".choices");
 var answers = document.querySelector(".answer");
 var startTime = 0;
 var timerCount = 76;
-var penalty = 10;
 var index = 0;
 var score = 0;
 
-
+// defining questions in quiz
 var codeQuestion = [
     {
         question: "Commonly used data types DO NOT include:",
@@ -38,9 +39,13 @@ var codeQuestion = [
         answer: "4. console.log"
     }]
 
+// function for starting the timer 
+
+
+// game starts with a click of the start button 
+startButton.addEventListener("click", 
 
 function startTimer() {
-    // Sets timer
     if (startTime === 0) {
         startTime = setInterval(function () {
             timerCount--;
@@ -49,16 +54,16 @@ function startTimer() {
             if (timerCount <= 0) {
                 clearInterval(startTime);
                 gameEnd();
-                timerElement, textContent = "Time's up!";
+                timerElement.textContent = "Time's up!";
             }
 
         }, 1000);
     }
-}
 
-startButton.addEventListener("click", startGame);
+    startGame();
+}); 
 
-
+// function for looping through questions
 function startGame() {
     questionsDiv.innerHTML = "";
     choices.innerHTML = "";
@@ -67,7 +72,7 @@ function startGame() {
         var userChoice = codeQuestion[index].choice;
         questionsDiv.textContent = userQuestion;
     }
-
+//lists multiple choice answers 
     userChoice.forEach(function (newItem) {
         var listChoice = document.createElement("li");
         var buttons = document.createElement("button");
@@ -75,17 +80,16 @@ function startGame() {
         listChoice.appendChild(buttons);
         buttons.textContent = newItem;
         buttons.setAttribute("style", "text-align: left");
-        buttons.addEventListener("click", compareAns);
+        buttons.addEventListener("click", checkAns);
     })
-    startTimer();
 }
 
-
-function compareAns(event) {
+// checking user answers 
+function checkAns(event) {
     var selected = event.target;
+    var penalty = 10;
 
     if (selected.textContent == codeQuestion[index].answer) {
-        score++;
         answers.textContent = "Correct!"
     } else {
         timerCount = timerCount - penalty;
@@ -101,34 +105,35 @@ function compareAns(event) {
     }
 }
 
-
+// Content clears when game ends and new display text in in place
 function gameEnd() {
     timerCount.innerHTML = "";
     questionsDiv.innerHTML = "";
     choices.innerHTML = "";
     answers.innerHTML = "";
 
-    // heading 
+    // All done heading  
     var allDone = document.createElement("h1");
     allDone.setAttribute("id", "allDone")
     allDone.textContent = "All done!"
 
     questionsDiv.appendChild(allDone);
 
-    // results 
+    // for displaying results 
     var results = document.createElement("p");
     results.setAttribute("id", "results");
 
     choices.appendChild(results);
 
 
-    // calculates score with time remaining 
+    // calculates score with time remaining and clears time display
     if (timerCount >= 0) {
         clearInterval(startTime);
+        timerElement.textContent = "";
         results.textContent = "Your final score is: " + timerCount + ".";
     }
 
-    // creating a label 
+    // enter initials label 
     var label = document.createElement("label");
     label.setAttribute("id", "label");
     label.textContent = "Enter your intitials: ";
@@ -136,11 +141,11 @@ function gameEnd() {
     choices.appendChild(label);
 
     //input initials
-    var initials = document.createElement("input");
-    initials.setAttribute("id", "initials");
-    initials.textContent = "";
+    var input = document.createElement("input");
+    input.setAttribute("id", "initials");
+    input.textContent = "";
 
-    choices.appendChild(initials);
+    choices.appendChild(input);
 
     //submit button
     var submitB = document.createElement("button");
@@ -150,27 +155,33 @@ function gameEnd() {
 
     choices.appendChild(submitB);
 
-    submitB.addEventListener("click", function () {
-        var userInitials = initials.value;
 
-        if (userInitials === null) {
-            console.log("No value entered!");
+    submitB.addEventListener("click", function () {
+        var userInitials = input.value;
+// if no initials input alert msg will appear 
+        if (userInitials === "") {
+            alert("Initials cannot be blank!");
+            return gameEnd();
+            
+// otherwise results will display in highscores page
         } else {
             finalScore = {
                 initials: userInitials,
                 score: timerCount
             }
+
             console.log(finalScore);
 
             var allScores = localStorage.getItem("allScores");
-            if (allScores === null) {
+             if (allScores === null) {
                 allScores = [];
             } else {
-                allScores = JSON.parse(allScores);
+              allScores = JSON.parse(allScores);
             }
-
+            
             allScores.push(finalScore);
-            var newScore = JSON.stringify(allScores);
+
+             var newScore = JSON.stringify(allScores);
             localStorage.setItem("allScores", newScore);
 
             window.location.replace("./highscores.html");
